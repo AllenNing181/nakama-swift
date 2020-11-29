@@ -219,7 +219,7 @@ fileprivate final class Nakama_Api_NakamaListChannelMessagesCallBase: ClientCall
 
 internal protocol Nakama_Api_NakamaListFriendsCall: ClientCallUnary {}
 
-fileprivate final class Nakama_Api_NakamaListFriendsCallBase: ClientCallUnaryBase<SwiftProtobuf.Google_Protobuf_Empty, Nakama_Api_Friends>, Nakama_Api_NakamaListFriendsCall {
+fileprivate final class Nakama_Api_NakamaListFriendsCallBase: ClientCallUnaryBase<SwiftProtobuf.Google_Protobuf_Empty, Nakama_Api_FriendList>, Nakama_Api_NakamaListFriendsCall {
   override class var method: String { return "/nakama.api.Nakama/ListFriends" }
 }
 
@@ -543,9 +543,9 @@ internal protocol Nakama_Api_NakamaService: ServiceClient {
   func listChannelMessages(_ request: Nakama_Api_ListChannelMessagesRequest, completion: @escaping (Nakama_Api_ChannelMessageList?, CallResult) -> Void) throws -> Nakama_Api_NakamaListChannelMessagesCall
 
   /// Synchronous. Unary.
-  func listFriends(_ request: SwiftProtobuf.Google_Protobuf_Empty) throws -> Nakama_Api_Friends
+  func listFriends(_ request: SwiftProtobuf.Google_Protobuf_Empty) throws -> Nakama_Api_FriendList
   /// Asynchronous. Unary.
-  func listFriends(_ request: SwiftProtobuf.Google_Protobuf_Empty, completion: @escaping (Nakama_Api_Friends?, CallResult) -> Void) throws -> Nakama_Api_NakamaListFriendsCall
+  func listFriends(_ request: SwiftProtobuf.Google_Protobuf_Empty, completion: @escaping (Nakama_Api_FriendList?, CallResult) -> Void) throws -> Nakama_Api_NakamaListFriendsCall
 
   /// Synchronous. Unary.
   func listGroups(_ request: Nakama_Api_ListGroupsRequest) throws -> Nakama_Api_GroupList
@@ -1033,12 +1033,12 @@ internal final class Nakama_Api_NakamaServiceClient: ServiceClientBase, Nakama_A
   }
 
   /// Synchronous. Unary.
-  internal func listFriends(_ request: SwiftProtobuf.Google_Protobuf_Empty) throws -> Nakama_Api_Friends {
+  internal func listFriends(_ request: SwiftProtobuf.Google_Protobuf_Empty) throws -> Nakama_Api_FriendList {
     return try Nakama_Api_NakamaListFriendsCallBase(channel)
       .run(request: request, metadata: metadata)
   }
   /// Asynchronous. Unary.
-  internal func listFriends(_ request: SwiftProtobuf.Google_Protobuf_Empty, completion: @escaping (Nakama_Api_Friends?, CallResult) -> Void) throws -> Nakama_Api_NakamaListFriendsCall {
+  internal func listFriends(_ request: SwiftProtobuf.Google_Protobuf_Empty, completion: @escaping (Nakama_Api_FriendList?, CallResult) -> Void) throws -> Nakama_Api_NakamaListFriendsCall {
     return try Nakama_Api_NakamaListFriendsCallBase(channel)
       .start(request: request, metadata: metadata, completion: completion)
   }
@@ -1367,7 +1367,7 @@ internal protocol Nakama_Api_NakamaProvider: ServiceProvider {
   func linkGoogle(request: Nakama_Api_AccountGoogle, session: Nakama_Api_NakamaLinkGoogleSession) throws -> SwiftProtobuf.Google_Protobuf_Empty
   func linkSteam(request: Nakama_Api_AccountSteam, session: Nakama_Api_NakamaLinkSteamSession) throws -> SwiftProtobuf.Google_Protobuf_Empty
   func listChannelMessages(request: Nakama_Api_ListChannelMessagesRequest, session: Nakama_Api_NakamaListChannelMessagesSession) throws -> Nakama_Api_ChannelMessageList
-  func listFriends(request: SwiftProtobuf.Google_Protobuf_Empty, session: Nakama_Api_NakamaListFriendsSession) throws -> Nakama_Api_Friends
+  func listFriends(request: SwiftProtobuf.Google_Protobuf_Empty, session: Nakama_Api_NakamaListFriendsSession) throws -> Nakama_Api_FriendList
   func listGroups(request: Nakama_Api_ListGroupsRequest, session: Nakama_Api_NakamaListGroupsSession) throws -> Nakama_Api_GroupList
   func listGroupUsers(request: Nakama_Api_ListGroupUsersRequest, session: Nakama_Api_NakamaListGroupUsersSession) throws -> Nakama_Api_GroupUserList
   func listLeaderboardRecords(request: Nakama_Api_ListLeaderboardRecordsRequest, session: Nakama_Api_NakamaListLeaderboardRecordsSession) throws -> Nakama_Api_LeaderboardRecordList
@@ -1834,7 +1834,7 @@ fileprivate final class Nakama_Api_NakamaListChannelMessagesSessionBase: ServerS
 
 internal protocol Nakama_Api_NakamaListFriendsSession: ServerSessionUnary {}
 
-fileprivate final class Nakama_Api_NakamaListFriendsSessionBase: ServerSessionUnaryBase<SwiftProtobuf.Google_Protobuf_Empty, Nakama_Api_Friends>, Nakama_Api_NakamaListFriendsSession {}
+fileprivate final class Nakama_Api_NakamaListFriendsSessionBase: ServerSessionUnaryBase<SwiftProtobuf.Google_Protobuf_Empty, Nakama_Api_FriendList>, Nakama_Api_NakamaListFriendsSession {}
 
 internal protocol Nakama_Api_NakamaListGroupsSession: ServerSessionUnary {}
 
