@@ -565,17 +565,17 @@ internal class DefaultClient: Client, WebSocketDelegate {
     func logout() {
     }
 
-    func websocketDidConnect(socket: WebSocketClient) {
+    func websocketDidConnect(socket: WebSocket) {
     }
 
-    func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
+    func websocketDidDisconnect(socket: WebSocket, error: NSError?) {
         self.collationIDs.removeAll()
         if self.onDisconnect != nil {
             self.onDisconnect!(error)
         }
     }
 
-    func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
+    func websocketDidReceiveMessage(socket: WebSocket, text: String) {
         print("TTTTTTTTtTTTTTTTTTTTTTTtTTTTTTTTTTTTTTtTTTTTTTTTTTTTTtTTTTTT")
         print(text)
         processText(text: text)
@@ -584,10 +584,9 @@ internal class DefaultClient: Client, WebSocketDelegate {
         }
     }
 
-    func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
+    func websocketDidReceiveData(socket: WebSocket, data: Data) {
         NSLog("Received Data instead of text")
     }
-
 
     func loginOrRegister(with deviceID: String) -> Promise<Session> {
         //let's authenitcate using the device id
