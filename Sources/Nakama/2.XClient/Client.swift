@@ -598,12 +598,13 @@ internal class DefaultClient: Client, WebSocketDelegate {
         message.create = true
         let (p, seal) = Promise<Session>.pending()
         _ = try? self.grpcClient.authenticateDevice(message, completion: { (session, rsp) in
-            if rsp.success {
+            if rsp.success && session != nil {
                 self.activeSession = DefaultSession(token: session!.token, created: session!.created)
                 seal.fulfill(self.activeSession!)
 
             } else {
-                seal.reject(NakamaError.runtimeException(String(format: "Internal Server Error - HTTP %@", rsp.statusCode.rawValue)))
+                let error = "Internal Server Error - HTTP \(rsp.statusCode.rawValue)"
+                seal.reject(NakamaError.runtimeException(error))
             }
 
         })
@@ -717,7 +718,7 @@ internal class DefaultClient: Client, WebSocketDelegate {
             let envelope = WebSocketEnvelope.deserialize(data: data)
             if envelope.cid == nil || envelope.cid!.isEmpty {
                 if envelope.error != nil {
-                    self.onError!(NakamaError.missingPayload("No payload in incoming message from server: \(envelope.error?.message)"))
+                    self.onError!(NakamaError.missingPayload("No payload in incoming message from server: \(String(describing: envelope.error?.message))"))
                 } else if let msg = envelope.channelMessage {
                     self.onChannelMessage!(msg)
                 } else if let msg = envelope.channelPresenceEvent {
@@ -770,7 +771,7 @@ internal class DefaultClient: Client, WebSocketDelegate {
                     let (fulfill, _): (fulfill: (Status) -> Void, reject: Any) = promiseTuple as! (fulfill: (Status) -> Void, reject: Any)
                     fulfill(msg)
                 }
-                else if let future = self.collationIDs.removeValue(forKey: envelope.cid!) {
+                else if self.collationIDs.removeValue(forKey: envelope.cid!) != nil {
                     let (fulfill, _): (fulfill: (() -> Void), reject: Any) = promiseTuple as! (fulfill: (() -> Void), reject: Any)
                     fulfill()
                     return
