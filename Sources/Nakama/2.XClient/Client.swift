@@ -251,7 +251,7 @@ public protocol Client {
     /**
      - Parameter message : message The message to send.
      */
-    func send(message: Message)
+    func send<T : Message>(message: T)
 
     /**
      Create a multiplayer match on the server.
@@ -706,9 +706,9 @@ internal class DefaultClient: Client, WebSocketDelegate {
         return p
     }
 
-    func send(message: Message) {
-//        let binaryData = try! JSONEncoder().encode(message)
-//        self.socket?.write(data: binaryData)
+    func send<T : Message>(message: T) {
+        let binaryData = try! JSONEncoder().encode(message)
+        self.socket?.write(data: binaryData)
     }
 
     fileprivate  func processText(text: String){

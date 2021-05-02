@@ -46,7 +46,7 @@ fileprivate final class Nakama_Api_NakamaAuthenticateCustomCallBase: ClientCallU
 internal protocol Nakama_Api_NakamaAuthenticateDeviceCall: ClientCallUnary {}
 
 fileprivate final class Nakama_Api_NakamaAuthenticateDeviceCallBase: ClientCallUnaryBase<Nakama_Api_AuthenticateDeviceRequest, Nakama_Api_Session>, Nakama_Api_NakamaAuthenticateDeviceCall {
-  override class var method: String { return "/nakama.api.Nakama/AuthenticateDevice" }
+  override class var method: String { return "/v2/account/authenticate/device" }
 }
 
 internal protocol Nakama_Api_NakamaAuthenticateEmailCall: ClientCallUnary {}
@@ -1418,7 +1418,7 @@ extension Nakama_Api_NakamaProvider {
         handler: handler,
         providerBlock: { try self.authenticateCustom(request: $0, session: $1 as! Nakama_Api_NakamaAuthenticateCustomSessionBase) })
           .run()
-    case "/nakama.api.Nakama/AuthenticateDevice":
+    case "/v2/account/authenticate/device":
       return try Nakama_Api_NakamaAuthenticateDeviceSessionBase(
         handler: handler,
         providerBlock: { try self.authenticateDevice(request: $0, session: $1 as! Nakama_Api_NakamaAuthenticateDeviceSessionBase) })
